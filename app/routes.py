@@ -53,6 +53,13 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+
+@app.route('/new_profile', methods=['GET', 'POST'])
+@login_required
+def new_profile():
+    return render_template()
+
+
 @app.route('/reset_db', methods=['GET', 'POST'])
 def reset_db():
     flash("Resetting database: deleting old data and repopulating with dummy data")
