@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import db, login
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,7 +9,6 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(64))
     email = db.Column(db.String(128), unique=True)
     password_hash = db.Column(db.String(128))
-    is_admin = db.Column(db.Boolean)
 
     def __repr__(self):
         return '<User {}>'.format(self.email)
@@ -30,7 +30,7 @@ class Profile(UserMixin, db.Model):
     name = db.Column(db.String(64))
     age = db.Column(db.Integer)
     gender = db.Column(db.String(32))
-    birthday = db.Column(db.Date)
+    birthday = db.Column(db.Date, default=datetime.utcnow)
     average_rating = db.Column(db.Float(5, True, 1), index=True)  # POTENTIAL ISSUES WITH PARAMETERS, TEST THIS
     is_claimed = db.Column(db.Boolean)
     job_title = db.Column(db.String(128))
@@ -48,7 +48,7 @@ class Address(db.Model):
     street_address = db.Column(db.String(128), unique=True)
     township = db.Column(db.String(64))
     state = db.Column(db.String(32))
-    zip_code = db.Column(db.Integer)
+    zip_code = db.Column(db.String(5))
 
     def __repr__(self):
         return '<Address {}>'.format(self.street_address)
@@ -69,15 +69,3 @@ class ProfileToAddress(db.Model):
     address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
     rating_id = db.Column(db.Integer, db.ForeignKey('rating.id'))
     is_current_address = db.Column(db.Boolean)
-
-
-class Payment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    card_name = db.Column(db.String(64))
-    card_number = db.Column(db.String(16), unique=True)
-    expiration_date = db.Column(db.Date)
-    cvv = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __repr__(self):
-        return '<Card Number {}>'.format(self.card_number)
