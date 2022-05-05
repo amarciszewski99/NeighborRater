@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegisterForm
+from app.forms import LoginForm, RegisterForm, ProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Address, Profile, Rating, ProfileToAddress
 from werkzeug.urls import url_parse
@@ -57,7 +57,30 @@ def register():
 @app.route('/new_profile', methods=['GET', 'POST'])
 @login_required
 def new_profile():
-    return render_template()
+    form = ProfileForm()
+    form.gender.choices = [
+        'Male',
+        'Female',
+        'Non-Binary/Non-Conforming',
+        'Prefer Not to Say'
+    ]
+    form.political_affiliation.choices = [
+        'Democrat',
+        'Republican',
+        'Independent',
+        'Unaffiliated',
+        'Prefer Not to Say'
+    ]
+    if form.validate_on_submit():
+        profile = Profile(name=form.name.data, age=form.age.data, gender=form.gender.data,
+                          birthday=form.birthday.data, job_title=form.job_title.data,
+                          political_affiliation=form.political_affiliation.data)
+        profile.is_claimed = False
+        db.session.add(profile)
+        db.session.commit()
+        flash('Profile creation successful! Thank you for contributing to our community, as well as your own.')
+        return redirect(url_for('index'))
+    return render_template('new_profile.html', title='New Profile', form=form)
 
 
 @app.route('/reset_db', methods=['GET', 'POST'])
@@ -127,5 +150,5 @@ def reset_db():
     db.session.add(test_p2a)
 
     db.session.commit()
-    return render_template('reset_db.html')
+    return redirect(url_for('index'))
 

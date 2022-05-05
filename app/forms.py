@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, IntegerField, SelectField, SelectMultipleField, \
+    DateField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
@@ -23,3 +24,14 @@ class RegisterForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+
+class ProfileForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    age = IntegerField('Age')
+    birthday = DateField('Birthday', format='%Y-%m-%d')
+    gender = SelectField('Gender Identity')
+    job_title = StringField('Job Title')
+    political_affiliation = SelectField('Political Affiliation')
+    submit = SubmitField('Create Profile')
+
