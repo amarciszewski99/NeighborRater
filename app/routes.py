@@ -53,6 +53,19 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
+@app.route('/profiles')
+@login_required
+def profiles():
+    profile_list = db.session.query(Profile).all()
+    return render_template('profiles.html', title='Profiles', profile_list=profile_list)
+
+
+@app.route('/profile/<id>')
+@login_required
+def profile(id):
+    profile = Profile.query.filter_by(id=id).first()
+    return render_template('profile.html', title=profile.name, profile=profile)
+
 
 @app.route('/new_profile', methods=['GET', 'POST'])
 @login_required

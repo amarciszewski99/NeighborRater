@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+    <h1>{{ profile.name }}: {{ profile.average_rating }}/5.0</h1>
+
+    {% if profile.is_claimed %}
+        <h2>Profile claimed.</h2>
+    {% else %}
+        <h2>Profile not claimed.</h2>
+    {% endif %}
+
+    {% if profile.age %}
+        <p>Age: {{ profile.age }}</p>
+    {% else %}
+        <p>Age: Unknown</p>
+    {% endif %}
+
+    {% if profile.birthday %}
+        <p>Birthday: {{ profile.birthday }}</p>
+    {% else %}
+        <p>Birthday: Unknown</p>
+    {% endif %}
+
+    {% if profile.gender %}
+        <p>Gender Identity: {{ profile.gender }}</p>
+    {% else %}
+        <p>Gender Identity: Unknown</p>
+    {% endif %}
+
+    {% if profile.job_title %}
+        <p>Job Title: {{ profile.job_title }}</p>
+    {% else %}
+        <p>Job Title: Unknown</p>
+    {% endif %}
+
+    {% if profile.political_affiliation %}
+        <p>Political Affiliation: {{ profile.political_affiliation }}</p>
+    {% else %}
+        <p>Political Affiliation: Unknown</p>
+    {% endif %}
+
+{% endblock %}

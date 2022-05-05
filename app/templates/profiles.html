@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+    <h1>Here is a list of all registered profiles!</h1>
+
+    {% for profile in profile_list %}
+        <div><a href="{{ url_for('profile', id=profile.id) }}">{{ profile.name }}</a></div>
+    {% endfor %}
+
+{% endblock %}
