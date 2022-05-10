@@ -96,6 +96,9 @@ def new_profile():
     return render_template('new_profile.html', title='New Profile', form=form)
 
 
+
+
+
 @app.route('/reset_db', methods=['GET', 'POST'])
 def reset_db():
     flash("Resetting database: deleting old data and repopulating with dummy data")

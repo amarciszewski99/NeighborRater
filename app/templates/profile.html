@@ -10,6 +10,20 @@
         <h2>Profile not claimed.</h2>
     {% endif %}
 
+    <h3>Current Address</h3>
+    {% for p2a in profile.p2a_list %}
+        {% if p2a.is_current_address == True %}
+            <p>{{ p2a.address.street_address }}</p>
+            <p>{{ p2a.address.township }}, {{ p2a.address.state }} {{ p2a.address.zip_code }}</p>
+        {% else %}
+            <p>Unknown</p>
+        {% endif %}
+    {% endfor %}
+
+    <hr>
+
+    <h3>Information</h3>
+
     {% if profile.age %}
         <p>Age: {{ profile.age }}</p>
     {% else %}
@@ -39,5 +53,16 @@
     {% else %}
         <p>Political Affiliation: Unknown</p>
     {% endif %}
+
+    <hr>
+
+    <h3>Former Addresses</h3>
+    {% for p2a in profile.p2a_list %}
+        {% if p2a.is_current_address == False %}
+            <ul>
+                <li>{{ p2a.address.street_address }}:</li>
+            </ul>
+        {% endif %}
+    {% endfor %}
 
 {% endblock %}

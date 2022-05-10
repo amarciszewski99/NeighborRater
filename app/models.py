@@ -49,6 +49,7 @@ class Address(db.Model):
     township = db.Column(db.String(64))
     state = db.Column(db.String(32))
     zip_code = db.Column(db.String(5))
+    p2a_list = db.relationship("ProfileToAddress", backref="address", lazy="dynamic")
 
     def __repr__(self):
         return '<Address {}>'.format(self.street_address)
