@@ -1,0 +1,33 @@
+<html>
+
+<head>
+
+    {% if title %}
+    <title>{{ title }} - NeighborRater</title>
+    {% else %}
+    <title>NeighborRater</title>
+    {% endif %}
+
+</head>
+
+<body>
+
+    <div>
+        NeighborRater:
+        <a href="{{ url_for('index') }}">Home</a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for messages in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</body>
+
+</html>
